@@ -1,4 +1,6 @@
-<script></script>
+<script setup lang="ts">
+const overlayClicked = useState("overlayClicked", () => false);
+</script>
 
 <template>
     <div id="container">
@@ -6,15 +8,34 @@
             <div id="logo-container">
                 <img src="~/assets/logo.png" id="burger-icon" />
             </div>
-            <div id="burger-icon-container">
+            <div
+                v-if="!overlayClicked"
+                id="burger-icon-container"
+                @click="overlayClicked = true"
+            >
                 <img src="~/assets/icons/menu-burger.png" id="burger-icon" />
+            </div>
+            <div
+                v-if="overlayClicked"
+                id="close-icon-container"
+                @click="overlayClicked = false"
+            >
+                <img src="~/assets/icons/menu-close.png" id="close-icon" />
             </div>
         </header>
 
-        <div id="overlay">
-            <a class="overlay-link">Home</a>
-            <a class="overlay-link">Books</a>
-            <a class="overlay-link">About Us</a>
+        <div v-if="overlayClicked" id="overlay">
+            <ul id="overlay-link-list">
+                <li class="overlay-link-container">
+                    <a class="overlay-link" href="/">Home</a>
+                </li>
+                <li class="overlay-link-container">
+                    <a class="overlay-link" href="/">Books</a>
+                </li>
+                <li class="overlay-link-container">
+                    <a class="overlay-link" href="/">About Us</a>
+                </li>
+            </ul>
         </div>
     </div>
 </template>
@@ -35,16 +56,6 @@ h1 {
     color: white;
 }
 
-#overlay {
-    height: 92vh;
-    position: absolute;
-    background-color: $accent;
-    padding-left: 15px;
-    padding-right: 15px;
-    color: white;
-    width: 100vw;
-}
-
 #logo-container {
     width: 200px;
 }
@@ -59,5 +70,39 @@ h1 {
 
 #burger-icon {
     width: 100%;
+}
+
+#close-icon-container {
+    width: 33px;
+}
+
+#close-icon {
+    width: 100%;
+}
+
+#overlay {
+    height: 92vh;
+    position: absolute;
+    background-color: $accent;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: white;
+    width: 100vw;
+}
+
+#overlay-link-list {
+    list-style-type: none;
+    padding-left: 0;
+    padding-top: 20px;
+}
+
+.overlay-link {
+    color: white;
+    font-size: x-large;
+    text-decoration: none;
+}
+
+.overlay-link-container {
+    padding-bottom: 20px;
 }
 </style>
