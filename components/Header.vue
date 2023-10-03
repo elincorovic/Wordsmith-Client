@@ -35,6 +35,11 @@ const overlayClicked = useState("overlayClicked", () => false);
                 <li class="overlay-link-container">
                     <a class="overlay-link" href="/">About Us</a>
                 </li>
+                <li class="overlay-link-container">
+                    <ButtonPrimary full-width="true" to="/login"
+                        >LogIn</ButtonPrimary
+                    >
+                </li>
             </ul>
         </div>
     </div>
@@ -87,7 +92,8 @@ h1 {
     padding-left: 15px;
     padding-right: 15px;
     color: white;
-    width: 100vw;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #overlay-link-list {
