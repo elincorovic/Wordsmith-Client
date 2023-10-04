@@ -3,15 +3,3 @@
         <NuxtPage />
     </NuxtLayout>
 </template>
-
-<style>
-html,
-body {
-    margin: 0px;
-    padding: 0px;
-}
-
-* {
-    font-family: Arial, Helvetica, sans-serif;
-}
-</style>

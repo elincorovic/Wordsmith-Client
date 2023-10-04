@@ -1,0 +1,45 @@
+html,
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-color: $background;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+img {
+    width: 100%;
+}
+
+.link {
+    color: $primary;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.book-box-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.book-box {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-column-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.book-box > div > p {
+    margin-top: 30px;
+}
+
+.book-box-img {
+    box-shadow: 2px 2px 5px rgb(121, 121, 121);
+}
+

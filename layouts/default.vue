@@ -5,7 +5,7 @@
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 #wrapper {
     padding-left: 15px;
     padding-right: 15px;
