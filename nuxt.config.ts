@@ -15,5 +15,5 @@ export default defineNuxtConfig({
             apiUrl: process.env.API_URL,
         },
     },
-    css: ["~/assets/scss/style.scss"],
+    css: ["~/assets/scss/style.scss", "~/assets/scss/forms.scss"],
 });
