@@ -1,4 +1,4 @@
-export type BookPreview = {
+export type Book = {
     title: string;
     slug: string;
     author: string;

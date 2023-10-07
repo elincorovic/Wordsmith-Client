@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { BookPreview } from "~/types";
+import { Book } from "~/types";
 
 const config = useRuntimeConfig();
 const queryParams = useRoute().query;
 
 console.log(queryParams);
 
-const books: BookPreview[] = await $fetch(`/books`, {
+const books: Book[] = await $fetch(`/books`, {
     baseURL: config.public.apiUrl,
 });
 </script>

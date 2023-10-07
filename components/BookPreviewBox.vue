@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { BookPreview } from "~/types";
+import { Book } from "~/types";
 
 const props = defineProps<{
-    books: BookPreview[];
+    books: Book[];
     title: string;
     link: string;
 }>();
@@ -14,8 +14,10 @@ const props = defineProps<{
             <h2>{{ props.title }}</h2>
             <a :href="props.link" class="link">See more...</a>
         </div>
-        <div v-for="book of props.books" class="book-preview-box">
-            <BookPreview :book="book" />
-        </div>
+        <BookPreview
+            v-for="book of props.books"
+            :book="book"
+            class="book-preview-box"
+        />
     </div>
 </template>

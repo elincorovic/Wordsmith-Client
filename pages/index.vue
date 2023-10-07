@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { BookPreview } from "~/types";
+import { Book } from "~/types";
 
 const config = useRuntimeConfig();
-const books: BookPreview[] = await $fetch("/books?sortBy=best-rating&limit=3", {
+const books: Book[] = await $fetch("/books?sortBy=best-rating&limit=3", {
     baseURL: config.public.apiUrl,
 });
 </script>
