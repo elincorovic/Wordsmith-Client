@@ -1,1 +1,1 @@
-export * from "./book.type";
+export * from "~/types/book-preview.type";

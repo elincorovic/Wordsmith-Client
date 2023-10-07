@@ -28,14 +28,14 @@ img {
     align-items: baseline;
 }
 
-.book-box {
+.book-preview-box {
     display: grid;
     grid-template-columns: 50% 50%;
     grid-column-gap: 10px;
     margin-bottom: 20px;
 }
 
-.book-box > div > p {
+.book-preview-box > div > p {
     margin-top: 30px;
 }
 

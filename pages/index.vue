@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { Book } from "~/types";
+import { BookPreview } from "~/types";
 
 const config = useRuntimeConfig();
-const books: Book[] = await $fetch("/books?sortBy=best-rating&limit=3", {
+const books: BookPreview[] = await $fetch("/books?sortBy=best-rating&limit=3", {
     baseURL: config.public.apiUrl,
 });
 </script>
 
 <template>
-    <div>
-        <h1>Home</h1>
-    </div>
-    <BookBox :books="books" title="Top Books" />
+    <h1>Home</h1>
+    <BookPreviewBox
+        :books="books"
+        title="Top Books"
+        link="/books?sortBy=best-rating"
+    />
 </template>
