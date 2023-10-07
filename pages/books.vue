@@ -4,11 +4,18 @@ import { Book } from "~/types";
 const config = useRuntimeConfig();
 const queryParams = useRoute().query;
 
-console.log(queryParams);
-
-const books: Book[] = await $fetch(`/books`, {
+const books: Book[] = await $fetch(`/books` + buildQuery(queryParams), {
     baseURL: config.public.apiUrl,
 });
+
+function buildQuery(query: any) {
+    if (!query) return "";
+    let queryString = "";
+    for (const key in query) {
+        queryString = queryString + "?" + key + "=" + query[key];
+    }
+    return queryString;
+}
 </script>
 
 <template>
