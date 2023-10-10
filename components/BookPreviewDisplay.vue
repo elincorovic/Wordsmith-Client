@@ -10,14 +10,18 @@ const props = defineProps<{
 
 <template>
     <div>
-        <div class="book-box-head">
+        <div class="book-display-head">
             <h2>{{ props.title }}</h2>
             <a :href="props.link" class="link">See more...</a>
         </div>
-        <BookPreview
-            v-for="book of props.books"
-            :book="book"
-            class="book-preview-box"
-        />
+        <BookPreview v-for="book of props.books" :book="book" />
     </div>
 </template>
+
+<style scoped>
+.book-display-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+</style>

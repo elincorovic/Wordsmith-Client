@@ -22,24 +22,3 @@ img {
     cursor: pointer;
 }
 
-.book-box-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-}
-
-.book-preview-box {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-column-gap: 10px;
-    margin-bottom: 20px;
-}
-
-.book-preview-box > div > p {
-    margin-top: 30px;
-}
-
-.book-box-img {
-    box-shadow: 2px 2px 5px rgb(121, 121, 121);
-}
-

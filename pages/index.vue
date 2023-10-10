@@ -2,16 +2,22 @@
 import { Book } from "~/types";
 
 const config = useRuntimeConfig();
-const books: Book[] = await $fetch("/books?sortBy=best-rating&limit=3", {
-    baseURL: config.public.apiUrl,
-});
+
+const { data: books, pending } = await useAsyncData<Book[]>("books", () =>
+    $fetch("/books?sortBy=best-rating&limit=3", {
+        baseURL: config.public.apiUrl,
+    })
+);
 </script>
 
 <template>
-    <h1>Home</h1>
-    <BookPreviewBox
-        :books="books"
-        title="Top Books"
-        link="/books?sortBy=best-rating"
-    />
+    <div>
+        <h1>Home</h1>
+        <BookPreviewDisplay
+            v-if="books"
+            :books="books"
+            title="Top Books"
+            link="/books?sortBy=best-rating"
+        />
+    </div>
 </template>
