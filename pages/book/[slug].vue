@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BookDetails } from "~/types";
 
+const now = new Date().getTime();
 const config = useRuntimeConfig();
 const queryParams = useRoute().params;
 
@@ -9,6 +10,17 @@ const { data: book } = await useAsyncData<BookDetails>("book", () =>
       baseURL: config.public.apiUrl,
    })
 );
+
+function msToTimeString(ms: number): string {
+   let seconds = Math.floor(ms / 1000);
+   let minutes = Math.floor(seconds / 60);
+   let hours = Math.floor(minutes / 60);
+   if (hours > 0) {
+      return hours + "h";
+   } else {
+      return minutes + "min";
+   }
+}
 </script>
 
 <template>
@@ -92,6 +104,78 @@ const { data: book } = await useAsyncData<BookDetails>("book", () =>
                <ButtonPrimary :full-width="true">Rate this Book</ButtonPrimary>
             </div>
          </div>
+
+         <div id="ratings-distribution">
+            <div class="ratings-distribution-row">
+               <div>5 / 5</div>
+               <div class="ratings-distribution-bar-bg">
+                  <div class="ratings-distribution-bar"></div>
+               </div>
+               <div>5 %</div>
+            </div>
+
+            <div class="ratings-distribution-row">
+               <div>4 / 5</div>
+               <div class="ratings-distribution-bar-bg">
+                  <div class="ratings-distribution-bar"></div>
+               </div>
+               <div>5 %</div>
+            </div>
+
+            <div class="ratings-distribution-row">
+               <div>3 / 5</div>
+               <div class="ratings-distribution-bar-bg">
+                  <div class="ratings-distribution-bar"></div>
+               </div>
+               <div>5 %</div>
+            </div>
+
+            <div class="ratings-distribution-row">
+               <div>2 / 5</div>
+               <div class="ratings-distribution-bar-bg">
+                  <div class="ratings-distribution-bar"></div>
+               </div>
+               <div>5 %</div>
+            </div>
+
+            <div class="ratings-distribution-row">
+               <div>1 / 5</div>
+               <div class="ratings-distribution-bar-bg">
+                  <div class="ratings-distribution-bar"></div>
+               </div>
+               <div>5 %</div>
+            </div>
+         </div>
+
+         <div>
+            <div v-for="rating of book.ratings" class="rating-box">
+               <img
+                  :src="
+                     config.public.apiUrl +
+                     '/users/images/' +
+                     rating.username +
+                     '.jpeg'
+                  "
+                  :alt="rating.username"
+                  class="ratings-user-img box-shadow"
+               />
+               <div class="ratings-details">
+                  <p>
+                     <span class="ratings-username">{{ rating.username }}</span>
+                     <span class="ratings-created">
+                        -
+                        {{
+                           msToTimeString(
+                              now - new Date(rating.createdAt).getTime()
+                           )
+                        }}
+                     </span>
+                  </p>
+                  <p v-if="rating.comment">{{ rating.comment }}</p>
+                  <p>{{ rating.rating }} / 5</p>
+               </div>
+            </div>
+         </div>
       </div>
    </div>
 </template>
@@ -161,5 +245,68 @@ const { data: book } = await useAsyncData<BookDetails>("book", () =>
    display: flex;
    flex-direction: column;
    justify-content: space-between;
+}
+
+#ratings-distribution {
+   padding: 20px 0;
+}
+
+.ratings-distribution-row {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 2px 0;
+}
+
+.ratings-distribution-bar-bg {
+   position: relative;
+   width: 80%;
+   height: 12px;
+   border-radius: 10px;
+}
+
+.ratings-distribution-bar-bg::before {
+   z-index: -1;
+   content: "";
+   position: absolute;
+   width: 100%;
+   height: 12px;
+   background-color: $primary;
+   border-radius: 10px;
+   opacity: 0.5;
+}
+
+.ratings-distribution-bar {
+   position: absolute;
+   width: 100px;
+   height: 12px;
+   background-color: $primary;
+   border-radius: 10px;
+   opacity: 1;
+   z-index: 0;
+}
+
+.rating-box {
+   display: grid;
+   grid-template-columns: 1fr 5fr;
+   gap: 20px;
+   padding: 20px 0;
+   border-top: 1px solid rgb(190, 190, 190);
+}
+
+.ratings-user-img {
+   border-radius: 50%;
+}
+
+.ratings-username {
+   font-weight: bold;
+}
+
+.ratings-details > p {
+   margin: 0 0 10px 0;
+}
+
+.ratings-created {
+   color: gray;
 }
 </style>
