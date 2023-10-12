@@ -86,7 +86,7 @@ const { data: book } = await useAsyncData<BookDetails>("book", () =>
                   <div id="avg-rating">{{ book.avgRating }}</div>
                   <div id="ratings-overview-details">
                      <div>{{ book.avgRating }} / 5</div>
-                     <div>{{ book.ratings.length }}</div>
+                     <div>{{ book.ratings.length }} Ratings</div>
                   </div>
                </div>
                <ButtonPrimary :full-width="true">Rate this Book</ButtonPrimary>
@@ -148,6 +148,7 @@ const { data: book } = await useAsyncData<BookDetails>("book", () =>
 #avg-rating {
    font-size: 62px;
    font-weight: bold;
+   margin-right: 10px;
 }
 
 #ratings-overview-flex {
@@ -156,5 +157,9 @@ const { data: book } = await useAsyncData<BookDetails>("book", () =>
 
 #ratings-overview-details {
    padding-top: 10px;
+   padding-bottom: 12px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
 }
 </style>
