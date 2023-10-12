@@ -63,6 +63,11 @@ h1 {
     color: white;
 }
 
+#container {
+    position: relative;
+    z-index: 2;
+}
+
 #logo-container {
     width: 200px;
 }

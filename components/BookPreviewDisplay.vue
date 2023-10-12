@@ -9,7 +9,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div>
+    <div id="wrapper">
         <div class="book-display-head">
             <h2>{{ props.title }}</h2>
             <a :href="props.link" class="link">See more...</a>
@@ -23,5 +23,9 @@ const props = defineProps<{
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+}
+
+#wrapper {
+    margin-top: 30px;
 }
 </style>

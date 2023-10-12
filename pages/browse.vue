@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Category } from "~/types";
+import { Book, Category } from "~/types";
 
 const config = useRuntimeConfig();
 
@@ -9,7 +9,11 @@ const { data: categories } = await useAsyncData<Category[]>("categories", () =>
     })
 );
 
-console.log(categories);
+const { data: books } = await useAsyncData<Book[]>("books", () =>
+    $fetch("/books?sortBy=best-rating&limit=3", {
+        baseURL: config.public.apiUrl,
+    })
+);
 </script>
 
 <template>
@@ -33,6 +37,13 @@ console.log(categories);
             </div>
         </div>
     </div>
+
+    <BookPreviewDisplay
+        v-if="books"
+        :books="books"
+        title="Top Books"
+        link="/books?sortBy=best-rating"
+    />
 </template>
 
 <style scoped>
