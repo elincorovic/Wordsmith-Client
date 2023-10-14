@@ -16,13 +16,13 @@ function buildQuery(query: any) {
    for (const key in query) {
       queryString = queryString + key + "=" + query[key] + "&";
    }
-   console.log(queryString);
    return queryString;
 }
 </script>
 
 <template>
    <h1>Books</h1>
+   <Filter />
    <div class="books-container">
       <BookPreview v-for="book of books" :book="book" />
    </div>
