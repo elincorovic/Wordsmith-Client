@@ -12,10 +12,11 @@ const { data: books } = await useAsyncData<Book[]>("books", () =>
 
 function buildQuery(query: any) {
    if (!query) return "";
-   let queryString = "";
+   let queryString = "?";
    for (const key in query) {
-      queryString = queryString + "?" + key + "=" + query[key];
+      queryString = queryString + key + "=" + query[key] + "&";
    }
+   console.log(queryString);
    return queryString;
 }
 </script>
