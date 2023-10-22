@@ -1,52 +1,52 @@
 <script setup lang="ts">
-import { BookDetails, Rating } from "~/types";
+import { BookDetails, Rating } from '~/types'
 
-const now = new Date().getTime();
-const config = useRuntimeConfig();
-const queryParams = useRoute().params;
+const now = new Date().getTime()
+const config = useRuntimeConfig()
+const queryParams = useRoute().params
 
-const { data: book } = await useAsyncData<BookDetails>("book", () =>
-    $fetch("/books/" + queryParams.slug, {
+const { data: book } = await useAsyncData<BookDetails>('book', () =>
+    $fetch('/books/' + queryParams.slug, {
         baseURL: config.public.apiUrl,
     })
-);
+)
 
-const ratingDistribution = getRatingDistribution(book.value?.ratings);
-const totalRatings = book.value?.ratings.length ? book.value.ratings.length : 1;
+const ratingDistribution = getRatingDistribution(book.value?.ratings)
+const totalRatings = book.value?.ratings.length ? book.value.ratings.length : 1
 
 //portions of every rating from 1-5 (in %)
-const rating4Portion = (ratingDistribution[3] / totalRatings) * 100;
-const rating3Portion = (ratingDistribution[2] / totalRatings) * 100;
-const rating2Portion = (ratingDistribution[1] / totalRatings) * 100;
-const rating5Portion = (ratingDistribution[4] / totalRatings) * 100;
-const rating1Portion = (ratingDistribution[0] / totalRatings) * 100;
+const rating4Portion = (ratingDistribution[3] / totalRatings) * 100
+const rating3Portion = (ratingDistribution[2] / totalRatings) * 100
+const rating2Portion = (ratingDistribution[1] / totalRatings) * 100
+const rating5Portion = (ratingDistribution[4] / totalRatings) * 100
+const rating1Portion = (ratingDistribution[0] / totalRatings) * 100
 
-const rating5BarWidth = ref(rating5Portion + "%");
-const rating4BarWidth = ref(rating4Portion + "%");
-const rating3BarWidth = ref(rating3Portion + "%");
-const rating2BarWidth = ref(rating2Portion + "%");
-const rating1BarWidth = ref(rating1Portion + "%");
+const rating5BarWidth = ref(rating5Portion + '%')
+const rating4BarWidth = ref(rating4Portion + '%')
+const rating3BarWidth = ref(rating3Portion + '%')
+const rating2BarWidth = ref(rating2Portion + '%')
+const rating1BarWidth = ref(rating1Portion + '%')
 
 function msToTimeString(ms: number): string {
-    let seconds = Math.floor(ms / 1000);
-    let minutes = Math.floor(seconds / 60);
-    let hours = Math.floor(minutes / 60);
+    let seconds = Math.floor(ms / 1000)
+    let minutes = Math.floor(seconds / 60)
+    let hours = Math.floor(minutes / 60)
     if (hours > 0) {
-        return hours + "h";
+        return hours + 'h'
     } else if (minutes > 0) {
-        return minutes + "min";
+        return minutes + 'min'
     } else {
-        return seconds + "s";
+        return seconds + 's'
     }
 }
 
 function getRatingDistribution(ratings: Rating[] | undefined): number[] {
-    if (!ratings) return [0, 0, 0, 0, 0];
-    let ratingDistribution = [0, 0, 0, 0, 0];
+    if (!ratings) return [0, 0, 0, 0, 0]
+    let ratingDistribution = [0, 0, 0, 0, 0]
     ratings.forEach((rating) => {
-        ratingDistribution[rating.rating - 1] += 1;
-    });
-    return ratingDistribution;
+        ratingDistribution[rating.rating - 1] += 1
+    })
+    return ratingDistribution
 }
 </script>
 
@@ -326,7 +326,7 @@ function getRatingDistribution(ratings: Rating[] | undefined): number[] {
 
 .ratings-distribution-bar-bg::before {
     z-index: -1;
-    content: "";
+    content: '';
     position: absolute;
     width: 100%;
     height: 12px;

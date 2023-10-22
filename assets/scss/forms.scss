@@ -9,10 +9,10 @@
     box-sizing: border-box;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
     font-size: 22px;
 }
 
-input[type="checkbox"]:checked {
+input[type='checkbox']:checked {
     outline: 2px solid black;
 }

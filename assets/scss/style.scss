@@ -26,4 +26,10 @@ img {
     box-shadow: 2px 2px 5px rgb(121, 121, 121);
 }
 
+.hidden {
+    display: none;
+}
 
+.primary {
+    color: $primary;
+}

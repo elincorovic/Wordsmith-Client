@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const overlayClicked = useState("overlayClicked", () => false);
+const overlayClicked = useState('overlayClicked', () => false)
 </script>
 
 <template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { Book } from "~/types";
+import { Book } from '~/types'
 
 const props = defineProps<{
-    books: Book[];
-    title: string;
-    link: string;
-}>();
+    books: Book[]
+    title: string
+    link: string
+}>()
 </script>
 
 <template>
