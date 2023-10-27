@@ -3,6 +3,7 @@ import { Category } from '~/types'
 
 const config = useRuntimeConfig()
 const route = useRoute()
+const router = useRouter()
 
 const categoriesFromRoute = route.query.category
     ? route.query.category.toString().split(',')
@@ -16,6 +17,7 @@ const releasetoRoute = route.query.toYear
 const ratingsFromRoute = route.query.rating
     ? route.query.rating.toString().split(',')
     : new Array<string>()
+const sortByFromRoute = route.query.sortBy
 
 const { data: categories } = await useAsyncData<Category[]>('categories', () =>
     $fetch('/categories', {
@@ -48,8 +50,9 @@ let selectedRatings = useState(
     () => new Array<string>(...ratingsFromRoute)
 )
 
-let selectedFromYear = useState('fromYear', () => releaseFromRoute)
-let selectedToYear = useState('toYear', () => releasetoRoute)
+let selectedFromYear = useState('selectedFromYear', () => releaseFromRoute)
+
+let selectedToYear = useState('selectedToYear', () => releasetoRoute)
 
 function toggleFilter() {
     if (showSort.value) showSort.value = false
@@ -99,11 +102,51 @@ function toggleRating(rating: string) {
     }
 }
 
-function filter() {
-    console.log(selectedCategories.value)
-    console.log(selectedFromYear.value)
-    console.log(selectedToYear.value)
-    console.log(selectedRatings.value)
+async function filter() {
+    let query: any = {}
+    for (const key in route.query) {
+        query[key] = route.query[key]
+    }
+    query.category =
+        selectedCategories.value.length > 0
+            ? selectedCategories.value.join(',')
+            : null
+    query.rating =
+        selectedRatings.value.length > 0
+            ? selectedRatings.value.join(',')
+            : null
+    query.fromYear = selectedFromYear.value
+    query.toYear = selectedToYear.value
+
+    let newRoute = '/books?'
+
+    for (const key in query) {
+        if (query[key]) {
+            newRoute += `${key}=${query[key]}&`
+        }
+    }
+
+    await router.push(newRoute)
+    router.go(0)
+}
+
+async function sort(sortBy: string) {
+    let query: any = {}
+    for (const key in route.query) {
+        query[key] = route.query[key]
+    }
+    query.sortBy = sortBy
+
+    let newRoute = '/books?'
+
+    for (const key in query) {
+        if (query[key]) {
+            newRoute += `${key}=${query[key]}&`
+        }
+    }
+
+    await router.push(newRoute)
+    router.go(0)
 }
 </script>
 
@@ -132,10 +175,25 @@ function filter() {
                 @click="showCategories = !showCategories"
             >
                 <div>Category</div>
-                <div>Y</div>
+                <img
+                    v-if="!showCategories"
+                    src="~/assets/icons/arrows/arrow-down.png"
+                    alt="arrow-down"
+                    class="arrow-icon"
+                />
+                <img
+                    v-if="showCategories"
+                    src="~/assets/icons/arrows/arrow-up.png"
+                    alt="arrow-up"
+                    class="arrow-icon"
+                />
             </div>
 
-            <div v-if="showCategories" class="dropdown">
+            <div
+                v-if="showCategories"
+                class="dropdown"
+                id="dropdown-categories"
+            >
                 <div v-for="categoryBlock of categoriesSorted">
                     <h2>{{ categoryBlock[0].title[0].toLocaleUpperCase() }}</h2>
                     <div
@@ -143,17 +201,39 @@ function filter() {
                         @click="toggleCategory(category.slug)"
                         class="category-select"
                     >
-                        <p>{{ category.title }}</p>
-                        <p v-if="selectedCategories.includes(category.slug)">
-                            Y
+                        <p
+                            class="category-select-title"
+                            :class="{
+                                primary: selectedCategories.includes(
+                                    category.slug
+                                ),
+                            }"
+                        >
+                            {{ category.title }}
                         </p>
+                        <img
+                            v-if="selectedCategories.includes(category.slug)"
+                            src="~/assets/icons/check.png"
+                            class="selected-icon"
+                        />
                     </div>
                 </div>
             </div>
 
             <div class="dropdown-button" @click="showRelease = !showRelease">
                 <div>Release year</div>
-                <div>Y</div>
+                <img
+                    v-if="!showRelease"
+                    src="~/assets/icons/arrows/arrow-down.png"
+                    alt="arrow-down"
+                    class="arrow-icon"
+                />
+                <img
+                    v-if="showRelease"
+                    src="~/assets/icons/arrows/arrow-up.png"
+                    alt="arrow-up"
+                    class="arrow-icon"
+                />
             </div>
 
             <div v-if="showRelease" class="dropdown">
@@ -179,29 +259,52 @@ function filter() {
 
             <div class="dropdown-button" @click="showRating = !showRating">
                 <div>Rating</div>
-                <div>Y</div>
+                <img
+                    v-if="!showRating"
+                    src="~/assets/icons/arrows/arrow-down.png"
+                    alt="arrow-down"
+                    class="arrow-icon"
+                />
+                <img
+                    v-if="showRating"
+                    src="~/assets/icons/arrows/arrow-up.png"
+                    alt="arrow-up"
+                    class="arrow-icon"
+                />
             </div>
 
             <div v-if="showRating" class="dropdown">
-                <div class="ratings-select" @click="toggleRating('1')">
-                    <p>Y X X X X <span>1 Star</span></p>
-                    <p v-if="selectedRatings.includes('1')">Y</p>
-                </div>
-                <div class="ratings-select" @click="toggleRating('2')">
-                    <p>Y Y X X X <span>2 Star</span></p>
-                    <p v-if="selectedRatings.includes('2')">Y</p>
-                </div>
-                <div class="ratings-select" @click="toggleRating('3')">
-                    <p>Y Y Y X X <span>3 Star</span></p>
-                    <p v-if="selectedRatings.includes('3')">Y</p>
-                </div>
-                <div class="ratings-select" @click="toggleRating('4')">
-                    <p>Y Y Y Y X <span>4 Star</span></p>
-                    <p v-if="selectedRatings.includes('4')">Y</p>
-                </div>
-                <div class="ratings-select" @click="toggleRating('5')">
-                    <p>Y Y Y Y Y <span>5 Star</span></p>
-                    <p v-if="selectedRatings.includes('5')">Y</p>
+                <div
+                    class="ratings-select"
+                    v-for="i in 5"
+                    @click="toggleRating(i.toString())"
+                >
+                    <div class="ratings-select-row">
+                        <img
+                            v-for="j in i"
+                            src="~/assets/icons/stars/star.png"
+                            alt="star"
+                            class="star-icon"
+                        />
+                        <img
+                            v-for="j in 5 - i"
+                            src="~/assets/icons/stars/star-nofill.png"
+                            alt="star"
+                            class="star-icon"
+                        />
+                        <span
+                            :class="{
+                                primary: selectedRatings.includes(i.toString()),
+                            }"
+                            class="ratings-select-text"
+                            >{{ i }} Star{{ i > 1 ? 's' : '' }}</span
+                        >
+                    </div>
+                    <img
+                        v-if="selectedRatings.includes(i.toString())"
+                        src="~/assets/icons/check.png"
+                        class="selected-icon"
+                    />
                 </div>
             </div>
 
@@ -213,21 +316,53 @@ function filter() {
             </div>
         </div>
         <div v-if="showSort" id="sort">
-            <div class="sort-button">
+            <div
+                class="sort-button"
+                :class="{ primary: sortByFromRoute == 'best-rating' }"
+                @click="sort('best-rating')"
+            >
                 <div>Best Rating</div>
-                <div>Y</div>
+                <img
+                    src="~/assets/icons/check.png"
+                    v-if="sortByFromRoute == 'best-rating'"
+                    class="selected-icon"
+                />
             </div>
-            <div class="sort-button">
+            <div
+                class="sort-button"
+                :class="{ primary: sortByFromRoute == 'popularity' }"
+                @click="sort('popularity')"
+            >
                 <div>Popularity</div>
-                <div>Y</div>
+                <img
+                    src="~/assets/icons/check.png"
+                    v-if="sortByFromRoute == 'popularity'"
+                    class="selected-icon"
+                />
             </div>
-            <div class="sort-button">
+            <div
+                class="sort-button"
+                :class="{ primary: sortByFromRoute == 'title' }"
+                @click="sort('title')"
+            >
                 <div>Title</div>
-                <div>Y</div>
+                <img
+                    src="~/assets/icons/check.png"
+                    v-if="sortByFromRoute == 'title'"
+                    class="selected-icon"
+                />
             </div>
-            <div class="sort-button">
+            <div
+                class="sort-button"
+                :class="{ primary: sortByFromRoute == 'author' }"
+                @click="sort('author')"
+            >
                 <div>Author</div>
-                <div>Y</div>
+                <img
+                    src="~/assets/icons/check.png"
+                    v-if="sortByFromRoute == 'author'"
+                    class="selected-icon"
+                />
             </div>
         </div>
     </div>
@@ -282,6 +417,10 @@ function filter() {
     border-bottom: 1px solid gray;
 }
 
+#dropdown-categories {
+    padding-bottom: 20px;
+}
+
 .sort-button {
     display: flex;
     justify-content: space-between;
@@ -296,6 +435,11 @@ function filter() {
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.category-select-title {
+    margin: 0;
 }
 
 #filter-buttons {
@@ -325,5 +469,31 @@ function filter() {
 .ratings-select {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.ratings-select-text {
+    margin-left: 10px;
+}
+
+.ratings-select-row {
+    display: flex;
+}
+
+.arrow-icon {
+    width: 15px;
+}
+
+.selected-icon {
+    display: block;
+    width: 15px;
+    height: 15px;
+}
+
+.star-icon {
+    width: 15px;
+    height: 15px;
 }
 </style>

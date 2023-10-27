@@ -81,7 +81,6 @@ h1 {
 }
 
 #inline-wrapper {
-    font-size: 14px;
     margin-top: 25px;
     margin-bottom: 25px;
     display: flex;
@@ -89,12 +88,10 @@ h1 {
 }
 
 #signup-link {
-    font-size: 14px;
     margin-top: 30px;
 }
 
 #head-text {
-    font-size: 14px;
     margin-top: 30px;
     margin-bottom: 30px;
 }

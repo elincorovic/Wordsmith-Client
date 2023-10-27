@@ -13,14 +13,17 @@ const overlayClicked = useState('overlayClicked', () => false)
                 id="burger-icon-container"
                 @click="overlayClicked = true"
             >
-                <img src="~/assets/icons/menu-burger.png" id="burger-icon" />
+                <img
+                    src="~/assets/icons/menu/menu-burger.png"
+                    id="burger-icon"
+                />
             </div>
             <div
                 v-if="overlayClicked"
                 id="close-icon-container"
                 @click="overlayClicked = false"
             >
-                <img src="~/assets/icons/menu-close.png" id="close-icon" />
+                <img src="~/assets/icons/menu/menu-close.png" id="close-icon" />
             </div>
         </header>
 
