@@ -1,9 +1,9 @@
 <script setup>
-defineProps(['full-width'])
+defineProps(['fullWidth'])
 </script>
 
 <template>
-    <button :class="{ 'full-width': ['full-width'] }"><slot /></button>
+    <button :class="{ 'full-width': fullWidth }"><slot /></button>
 </template>
 
 <style lang="scss" scoped>

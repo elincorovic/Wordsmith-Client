@@ -148,6 +148,13 @@ async function sort(sortBy: string) {
     await router.push(newRoute)
     router.go(0)
 }
+
+function reset() {
+    selectedCategories.value = new Array()
+    selectedRatings.value = new Array()
+    selectedFromYear.value = null
+    selectedToYear.value = null
+}
 </script>
 
 <template>
@@ -312,7 +319,7 @@ async function sort(sortBy: string) {
                 <ButtonPrimary :full-width="true" @click="filter"
                     >Apply</ButtonPrimary
                 >
-                <ButtonSecondary :full-width="true">Reset</ButtonSecondary>
+                <ButtonSecondary :full-width="true" @click="reset">Reset</ButtonSecondary>
             </div>
         </div>
         <div v-if="showSort" id="sort">
