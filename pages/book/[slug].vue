@@ -325,7 +325,6 @@ function getRatingDistribution(ratings: Rating[] | undefined): number[] {
 }
 
 .ratings-distribution-bar-bg::before {
-    z-index: -1;
     content: '';
     position: absolute;
     width: 100%;
