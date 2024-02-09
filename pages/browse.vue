@@ -21,12 +21,14 @@ const { data: books } = await useAsyncData<Book[]>('books', () =>
         <div id="categories-display">
             <div id="categories-display-head">
                 <h2>Categories</h2>
-                <a href="/categories" class="link">See more...</a>
+                <RouterLink to="/categories" class="link"
+                    >See more...</RouterLink
+                >
             </div>
             <div id="categories-display-card-box">
-                <a
+                <RouterLink
                     v-for="category of categories"
-                    :href="`/books?category=${category.slug}&limit=10`"
+                    :to="`/books?category=${category.slug}&limit=10`"
                 >
                     <div
                         class="box-shadow category-card"
@@ -36,7 +38,7 @@ const { data: books } = await useAsyncData<Book[]>('books', () =>
                     >
                         <div id="category-title">{{ category.title }}</div>
                     </div>
-                </a>
+                </RouterLink>
             </div>
         </div>
 

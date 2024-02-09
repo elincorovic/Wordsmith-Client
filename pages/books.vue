@@ -29,6 +29,10 @@ function buildQuery(query: any) {
 </template>
 
 <style scoped>
+h1 {
+    margin-block-start: 5px;
+    text-align: center;
+}
 .books-container {
     display: grid;
     grid-template-columns: 100%;

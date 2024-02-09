@@ -8,5 +8,7 @@
 #wrapper {
     padding-left: 15px;
     padding-right: 15px;
+    background-color: $background;
+    height: 100vh;
 }
 </style>
