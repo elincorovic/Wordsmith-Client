@@ -1,7 +1,32 @@
-<script setup>
+<script setup lang="ts">
+import { User } from '~/types'
+
 definePageMeta({
     layout: 'plain',
 })
+
+const config = useRuntimeConfig()
+
+const username = ref(null)
+const password = ref(null)
+
+async function submit() {
+    console.log('test')
+    const { data: user, error } = await useAsyncData('user', async () => {
+        const user = await $fetch('/auth/login', {
+            method: 'POST',
+            baseURL: config.public.apiUrl,
+            body: {
+                username: username.value,
+                password: password.value,
+            },
+        })
+
+        return user
+    })
+
+    console.log(user.value.access_token)
+}
 </script>
 
 <template>
@@ -19,12 +44,14 @@ definePageMeta({
                 type="text"
                 name="username"
                 placeholder="username"
+                v-model="username"
             />
             <input
                 class="input-text"
                 type="password"
                 name="password"
                 placeholder="password"
+                v-model="password"
             />
             <div id="inline-wrapper">
                 <div id="remember-wrapper">
@@ -34,7 +61,9 @@ definePageMeta({
                 <a href="#" class="link">Forgot Password?</a>
             </div>
 
-            <ButtonPrimary :full-width="true">Log In</ButtonPrimary>
+            <ButtonPrimary :full-width="true" @click="submit"
+                >Log In</ButtonPrimary
+            >
 
             <p id="signup-link">
                 Don't have an account yet?
