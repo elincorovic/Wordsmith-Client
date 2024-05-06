@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { User } from '~/types'
+import { useAuthStore } from '~/stores/auth.store'
 
 definePageMeta({
     layout: 'plain',
@@ -7,25 +7,30 @@ definePageMeta({
 
 const config = useRuntimeConfig()
 
+const authStore = useAuthStore()
+
 const username = ref(null)
 const password = ref(null)
 
 async function submit() {
-    console.log('test')
-    const { data: user, error } = await useAsyncData('user', async () => {
-        const user = await $fetch('/auth/login', {
-            method: 'POST',
-            baseURL: config.public.apiUrl,
-            body: {
-                username: username.value,
-                password: password.value,
-            },
-        })
+    const { data: signinRes } = await useAsyncData<{ access_token: string }>(
+        'signinRes',
+        async () =>
+            $fetch('/auth/login', {
+                method: 'POST',
+                baseURL: config.public.apiUrl,
+                body: {
+                    username: username.value,
+                    password: password.value,
+                },
+            })
+    )
 
-        return user
-    })
+    if (!signinRes.value?.access_token) {
+        throw Error('LogIn failed. Access token was not provided.')
+    }
 
-    console.log(user.value.access_token)
+    authStore.setUserAccessToken(signinRes.value?.access_token)
 }
 </script>
 

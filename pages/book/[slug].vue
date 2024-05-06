@@ -311,7 +311,7 @@ function getRatingDistribution(ratings: Rating[] | undefined): number[] {
 
 .ratings-distribution-row {
     display: grid;
-    grid-template-columns: 0.8fr 6fr 1fr;
+    grid-template-columns: 1fr 6fr 1.3fr;
     align-items: center;
     padding: 2px 0;
     gap: 5px;
