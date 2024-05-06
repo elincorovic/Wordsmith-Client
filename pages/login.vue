@@ -7,8 +7,6 @@ definePageMeta({
 
 const config = useRuntimeConfig()
 
-const authStore = useAuthStore()
-
 const username = ref(null)
 const password = ref(null)
 
@@ -30,7 +28,7 @@ async function submit() {
         throw Error('LogIn failed. Access token was not provided.')
     }
 
-    authStore.setUserAccessToken(signinRes.value?.access_token)
+    useAuthStore().setUserAccessToken(signinRes.value?.access_token)
 }
 </script>
 

@@ -16,4 +16,5 @@ export default defineNuxtConfig({
         },
     },
     css: ['~/assets/scss/style.scss', '~/assets/scss/forms.scss'],
+    modules: ['@pinia/nuxt'],
 })
